@@ -9,7 +9,14 @@
 #include "math.h"
 
 void SystemInit(){
+
 }
+
+	
+void Delay(unsigned long counter);
+char UART1_Receiver(void);
+void UART0_Transmitter( unsigned char data);
+void printstring(char *str);
 
 void UART_init_GPS(){
 
@@ -69,3 +76,32 @@ int main(void){
 	
 }
 
+char UART1_Receiver(void) 
+{
+    char data;
+	  while((UART1_FR_R & (1<<4)) != 0); 
+    data = UART1_DR_R ;  
+    return (unsigned char) data; 
+}
+
+void UART0_Transmitter(unsigned char  data)  
+{
+    while((UART0_FR_R & (1<<5)) != 0); 
+    UART0_DR_R = data;                
+
+}
+
+void printstring(char* str)
+{
+  while(*str)
+	{
+		UART0_Transmitter(*(str++));
+	}
+}
+
+void Delay(unsigned long counter)
+{
+	unsigned long i = 0;
+	
+	for(i=0; i< counter; i++);
+}
