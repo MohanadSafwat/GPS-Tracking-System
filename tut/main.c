@@ -1,4 +1,9 @@
 #include "C:/Keil/EE319Kware/inc/tm4c123gh6pm.h"
+#include "Flash.h"
+
+#define RED 0x02
+#define BLUE 0x04
+#define GREEN 0x08
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -103,8 +108,42 @@ double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
     return (dist);
   }
 }
+void dist(double *s){
+	 *s *=10.0;
+}
+
+
 
 int main(void){
+			
+	  char c0,c1,c2,c3,c4,c5,c6,c7,GPSValues[100],latitudeResult[16],longitudeResult[16],parseValue[12][20],*token;
+    double latitude=0.0,longitude=0.0;
+	  double seconds=0.0,resultLat=0.0,resultLon=0.0,minutes=0.0;
+    const char comma[2] = ",";
+    int index=0,degrees,i=0,j=0;	
+	  int k ;
+	int counter =0;
+	bool flag=true;
+	double dis=0.0;
+	char disS[10];
+  double theta, dist;	
+	double lat1,lon1,lat2,lon2;
+		Point pt;
+	char c = 'c';
+	Point ptArr[100] ;
+	int number;
+	int pointCounter =0 ;
+	char test[15];
+	UART_init_GPS();
+	UART_init_console();
+	init();
+  initLcd();
+	Flash_Enable();
+  delay(100);
+
+	
+			//Flash_Erase(4);
+
 	
 }
 
