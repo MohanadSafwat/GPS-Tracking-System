@@ -1,9 +1,9 @@
 .\main.o: main.c
-.\main.o: C:/Keil/EE319Kware/inc/tm4c123gh6pm.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdbool.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdlib.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\inttypes.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\math.h
+.\main.o: C:/Keil_v5/EE319KwareSpring2021/inc/tm4c123gh6pm.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -1,4 +1,4 @@
-#include "C:/Keil/EE319Kware/inc/tm4c123gh6pm.h"
+#include "C:/Keil_v5/EE319KwareSpring2021/inc/tm4c123gh6pm.h"
 //#include "Flash.h"
 
 #define RED 0x02
@@ -183,7 +183,55 @@ int main(void){
 																		
                                     strcpy(parseValue[index], token);
                                     token = strtok(NULL, comma);
-                                    index++;}*/
+                                    index++;}
+																		
+																		
+																		
+																		
+																										
+
+																		
+                             if(strcmp(parseValue[1],"A")==0){
+															counter++;
+															 if(counter<5){
+																 print("Wait...");
+																 delayMilli(200);
+																 continue;}
+															//		parseValue[2][11] ='0';
+ 																	latitude = atof(parseValue[2]);
+                                  longitude = atof(parseValue[4]);
+																
+															
+
+                                    //latitude hesaplama
+                                    degrees=latitude/100;
+                                    minutes=latitude-(double)(degrees*100);
+                                    seconds=minutes/60.00;
+																		if(!flag){
+																		lat2=resultLat;
+																			
+																		}
+																	
+                                    resultLat=degrees+seconds;
+																			lat1 = resultLat;
+                                   sprintf(latitudeResult,"%f", resultLat);
+
+
+                                    //longitude hesaplama
+                                    degrees=longitude/100;
+                                    minutes=longitude-(double)(degrees*100);
+                                    seconds=minutes/60.00;
+																		if(!flag){
+																		lon2=resultLon;
+																			
+																		}
+                                    resultLon=degrees+seconds;
+																		lon1 = resultLon;
+                                  
+																		sprintf(longitudeResult, "%f", resultLon);
+																		
+																		
+																		*/
 	}
 	
 }
