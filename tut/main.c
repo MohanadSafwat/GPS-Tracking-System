@@ -143,7 +143,48 @@ int main(void){
 
 	
 			//Flash_Erase(4);
+	while(1){
+		
+		//lcdCommand(0x01);
+		//delayMilli(2);
 
+			
+	//	c0 = UART1_Receiver();           /*get a character from UART5 */
+		//UART0_Transmitter(c0); 
+	/*	 if(c0=='$'){
+
+        c1=UART1_Receiver();
+
+        if(c1=='G'){														
+             c2=UART1_Receiver();
+            if(c2=='P'){													
+                 c3=UART1_Receiver();
+                if(c3=='R'){
+                     c4=UART1_Receiver();
+                    if(c4=='M'){
+                         c5=UART1_Receiver();
+                        if(c5=='C'){
+                             c6=UART1_Receiver();
+                            if(c6==','){
+                                 c7=UART1_Receiver();
+															
+                                //verileri GPSValues arrayine atama.son veri olan checksum a kadar oku(checksum:A*60 gibi)
+                                while(c7!='*'){
+                                    GPSValues[index]=c7;														
+                                    c7=UART1_Receiver();
+                                    index++;}
+
+                                //GPSValues arrayindeki verileri virgul e gore ayirma
+                                index=0;
+                                token = strtok(GPSValues, comma);
+																		
+
+                                while( token != NULL ) {
+																		
+                                    strcpy(parseValue[index], token);
+                                    token = strtok(NULL, comma);
+                                    index++;}*/
+	}
 	
 }
 
