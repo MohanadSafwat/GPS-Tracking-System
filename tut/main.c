@@ -1,5 +1,5 @@
 #include "C:/Keil/EE319Kware/inc/tm4c123gh6pm.h"
-#include "Flash.h"
+//#include "Flash.h"
 
 #define RED 0x02
 #define BLUE 0x04
@@ -128,18 +128,18 @@ int main(void){
 	char disS[10];
   double theta, dist;	
 	double lat1,lon1,lat2,lon2;
-		Point pt;
+		//Point pt;
 	char c = 'c';
-	Point ptArr[100] ;
+	//Point ptArr[100] ;
 	int number;
 	int pointCounter =0 ;
 	char test[15];
 	UART_init_GPS();
 	UART_init_console();
 	init();
-  initLcd();
-	Flash_Enable();
-  delay(100);
+  //initLcd();
+	//Flash_Enable();
+  //delay(100);
 
 	
 			//Flash_Erase(4);
