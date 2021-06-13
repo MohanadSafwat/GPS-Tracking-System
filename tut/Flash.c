@@ -88,6 +88,14 @@ int Flash_Write(void* data, int wordCount, int noOfPoint, char type)
 		FLASH_FMC_R = (flashKey_ << 16) | 0x1; 
 		while (FLASH_FMC_R & 0x1) {}
 	}
+	else if(type == 'd')
+	{
+			FLASH_FMD_R = *((volatile uint32_t*)data);
+			FLASH_FMA_R &= 0xFFFC0000;  
+			FLASH_FMA_R = (uint32_t)FLASH_BASE_ADDR+sizeof(uint32_t);
+		FLASH_FMC_R = (flashKey_ << 16) | 0x1; 
+		while (FLASH_FMC_R & 0x1) {}
+	}
 	else{
 	for ( i = 0; i < wordCount; i++) {
 	
@@ -123,6 +131,8 @@ void Flash_Read( void*data, int wordCount, int noOfPoint, char type)
 	int i ;
 	if(type == 'c')
 				*((uint32_t*)data) = 	*FLASH_BASE_ADDR;
+	else if(type == 'd')
+				*((uint32_t*)data) = 	(FLASH_BASE_ADDR)[1];
 	else{
 	// Copy the count of bytes into the target data buffer...
 	for ( i = 0; i < wordCount; i++) {
