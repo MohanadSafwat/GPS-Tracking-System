@@ -148,6 +148,44 @@ int main(void){
 		//lcdCommand(0x01);
 		//delayMilli(2);
 
+		c0 = UART0_Receiver(); 
+				if(c0=='U'){
+						Flash_Read( &number,1,0,'c');
+	
+			 sprintf(disS,"%d",number);
+		 printstring(disS);
+			printstring("["); 
+
+			 for(k=1; k <number/2 ; k+=2)			
+			 {
+
+					 Flash_Read(&ts,2,k,'p');
+				
+				 sprintf(disS,"%f",ts);
+					printstring(disS);
+					printstring(",");
+				
+
+	
+			 }
+			 printstring("]"); 
+			 			printstring("["); 
+
+			 for(k=2; k <number/2 ; k+=2)			
+			 {
+					 Flash_Read(&ts,2,k,'p');
+				 sprintf(disS,"%f",ts);
+					printstring(disS);
+					printstring(",");
+
+			 }
+			 printstring("]"); 
+
+			 GPIO_PORTF_DATA_R |= 0x08 ;		 
+
+				}
+				else{
+
 			
 	//	c0 = UART1_Receiver();           /*get a character from UART5 */
 		//UART0_Transmitter(c0); 
@@ -268,7 +306,7 @@ int main(void){
                                     print("Connecting...");
 																	delayMilli(500);
 																}
-                        }}}}}}}*/
+                        }}}}}}}*/}
 											sprintf(test,"%d",pointCounter);
 	printstring(test);
 	printstring("::");
