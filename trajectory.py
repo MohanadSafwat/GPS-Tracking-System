@@ -15,7 +15,7 @@ s.write(b'U')
 
 reading= s.readline()
 
-print(reading.decode("utf-8") )
+
 
 
 #latitude = input("Enter latitude list:")
