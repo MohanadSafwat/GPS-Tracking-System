@@ -23,6 +23,7 @@ void Delay(unsigned long counter);
 char UART1_Receiver(void);
 void UART0_Transmitter( unsigned char data);
 void printstring(char *str);
+char UART0_Receiver(void);
 
 double deg2rad(double);
 double rad2deg(double);
@@ -345,7 +346,13 @@ char UART1_Receiver(void)
     data = UART1_DR_R ;  
     return (unsigned char) data; 
 }
-
+char UART0_Receiver(void) 
+{
+    char data;
+	  while((UART0_FR_R & (1<<4)) != 0); /* wait until Rx buffer is not full */
+    data = UART0_DR_R ;  	/* before giving it another byte */
+    return (unsigned char) data; 
+}
 void UART0_Transmitter(unsigned char  data)  
 {
     while((UART0_FR_R & (1<<5)) != 0); 
