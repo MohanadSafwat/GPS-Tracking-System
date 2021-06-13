@@ -269,6 +269,33 @@ int main(void){
 																	delayMilli(500);
 																}
                         }}}}}}}*/
+											sprintf(test,"%d",pointCounter);
+	printstring(test);
+	printstring("::");
+									Flash_Write(&la,2,pointCounter,'p');
+													
+													 		pointCounter++;
+													Flash_Write(&lo,2,pointCounter,'p');
+										
+				
+													pointCounter++;
+														sprintf(test,"%f",la);
+	printstring(test);
+	printstring("::");	sprintf(test,"%f",lo);
+	printstring(test);
+	printstring("::");
+					
+
+	
+		 
+										}
+	
+
+	
+	//delayMilli(122);
+	
+
+}
 	}
 	
 }
