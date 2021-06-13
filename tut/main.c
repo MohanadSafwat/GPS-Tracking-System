@@ -232,6 +232,43 @@ int main(void){
 																		
 																		
 																		*/
+																		//	printstring(latitudeResult);
+																	//	printstring("    ");
+																	//	printstring(longitudeResult);
+																	//	printstring("::");
+/*if(!flag){
+
+	dis += distance(lat1,lon1,lat2,lon2,'K');
+  }
+  
+			sprintf(disS,"%f",dis);
+			//	 printstring(disS);
+	strncpy(pt.latitude, latitudeResult, sizeof(pt.latitude));
+	strncpy(pt.longitude, longitudeResult, sizeof(pt.longitude));
+
+	printstring(pt.latitude);
+	printstring("::");
+	printstring(pt.longitude);
+
+	 print(disS);
+	
+	//sprintf(test,"%d",pointCounter);
+	//printstring(test);
+	//printstring("::");
+
+	Flash_Write(&pt,sizeof(Point)/sizeof(uint32_t),pointCounter,'p');
+			delayMilli(200);
+		pointCounter++;
+
+	flag = false;
+	}
+                               
+	else{
+																//	delay(10);	
+                                    print("Connecting...");
+																	delayMilli(500);
+																}
+                        }}}}}}}*/
 	}
 	
 }
