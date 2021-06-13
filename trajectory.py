@@ -1,4 +1,4 @@
-
+import serial
 import gmplot
 import webbrowser
 
@@ -6,12 +6,33 @@ def Convert(string):
     li = list(string.split(","))
     return li
 
-latitude = input("Enter latitude list:")
+def Split(string):
+    li = list(string.split("-"))
+    return li
+
+s =serial.Serial('COM3',9600)
+s.write(b'U')
+
+reading= s.readline()
+
+print(reading.decode("utf-8") )
+
+
+#latitude = input("Enter latitude list:")
+latitude = Split(reading.decode("utf-8"))
+latitude = latitude[0]
+
 latitude = Convert(latitude)
+latitude.pop()
+print(  latitude)
 
-longitude = input("Enter longitude list:")
+#longitude = input("Enter longitude list:")
+longitude = Split(reading.decode("utf-8"))
+longitude = longitude[1]
+
 longitude = Convert(longitude)
-
+longitude.pop()
+print(  longitude)
 map = input("Enter map type [roadmap(1) ,satellite(2) ,hybrid(3)]:")
 
 if(int(map) == 1):
@@ -31,7 +52,7 @@ if(len(latitude) != len(longitude)):
     print("Latitude list length must be equal to longitude list length")
 else:
     for i in range(0, len(latitude)):
-        latitude[i] = float(latitude[i])
+        latitude[i] = float (latitude[i])
         longitude[i] = float(longitude[i])
 
     gmap3 = gmplot.GoogleMapPlotter(latitude[0], longitude[0], 20,map_type=map)
