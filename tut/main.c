@@ -148,17 +148,11 @@ int main(void){
 	bool flag=true;
 	double dis=0.0;
 	char disS[15];
-  double theta, dist;	
 	double lat1,lon1,lat2,lon2;
-		Point pt;
-	char c = 'c';
-	Point ptArr[100] ;
 	int number;
 	double ts;
 	int pointCounter =1 ;
 	char test[15];
-	double la =11.5;
-	double lo=12.5; 
 	bool flagErase = false;
 	int done =0 ;
 	UART_init_GPS();
@@ -169,17 +163,15 @@ int main(void){
   delay(100);
 	
 	
-	//	Flash_Erase(16);
+
 			while(1){
 				Flash_Read( &number,1,0,'d');
-				sprintf(test,"%d",number);
-	printstring(test);
-	printstring("::");
+
 				
 				if(number ==1)
 					break;
 	
-			//	else{
+			
 					if(!flagErase){
 						Flash_Erase(16);
 						
@@ -187,7 +179,7 @@ int main(void){
 					flagErase = true;
 			lcdCommand(0x01);
 		delayMilli(2);
-		c0 = UART1_Receiver();           /*get a character from UART5 */
+		c0 = UART1_Receiver();        
 		//UART0_Transmitter(c0); 
 		if(c0=='$'){
 
@@ -206,13 +198,11 @@ int main(void){
                             if(c6==','){
                                  c7=UART1_Receiver();
 															
-                                //verileri GPSValues arrayine atama.son veri olan checksum a kadar oku(checksum:A*60 gibi)
                                 while(c7!='*'){
                                     GPSValues[index]=c7;														
                                     c7=UART1_Receiver();
                                     index++;}
 
-                                //GPSValues arrayindeki verileri virgul e gore ayirma
                                 index=0;
                                 token = strtok(GPSValues, comma);
 																		
@@ -229,7 +219,7 @@ int main(void){
 															counter++;
 															 if(counter<5){
 																 print("Wait...");
-																 delayMilli(200);
+																 delayMilli(8000);
 																 continue;}
 													
  																	latitude = atof(parseValue[2]);
@@ -237,7 +227,7 @@ int main(void){
 																
 															
 
-                                    //latitude hesaplama
+                   
                                     degrees=latitude/100;
                                     minutes=latitude-(double)(degrees*100);
                                     seconds=minutes/60.00;
@@ -251,7 +241,7 @@ int main(void){
                                    sprintf(latitudeResult,"%f", resultLat);
 
 
-                                    //longitude hesaplama
+            
                                     degrees=longitude/100;
                                     minutes=longitude-(double)(degrees*100);
                                     seconds=minutes/60.00;
@@ -264,22 +254,16 @@ int main(void){
                                   
 																		sprintf(longitudeResult, "%f", resultLon);
 																		
-																	//	printstring(latitudeResult);
-																	//	printstring("    ");
-																		//printstring(longitudeResult);
-																	//	printstring("::");
+															
 if(!flag){
 
-	dis += distance(lat1,lon1,lat2,lon2,'K')+99;
+	dis += distance(lat1,lon1,lat2,lon2,'K');
   }
   
 			sprintf(disS,"%f",dis);
 	
 	 print(disS);
 	
-	//sprintf(test,"%d",pointCounter);
-	//printstring(test);
-	//printstring("::");
 
 	
 									Flash_Write(&lat1,2,pointCounter,'p');
@@ -296,34 +280,18 @@ if(!flag){
 			 GPIO_PORTF_DATA_R = 0x02 ;		 
 			 break;
 	}
-													delayMilli(250);
+													delayMilli(8000);
 	flag = false;
 	}
                                
 	else{
-																//	delay(10);	
+						
                                     print("Connecting...");
-																	delayMilli(500);
+																	delayMilli(2000);
 																}
 	
                         }}}}}}} 
-	//	}
-									/*			sprintf(test,"%d",pointCounter);
-	printstring(test);
-	printstring("::");
-									Flash_Write(&la,2,pointCounter,'p');
-													
-													 		pointCounter++;
-													Flash_Write(&lo,2,pointCounter,'p');
-										
-				
-													pointCounter++;
-														sprintf(test,"%f",la);
-	printstring(test);
-	printstring("::");	sprintf(test,"%f",lo);
-	printstring(test);
-	printstring("::");*/
-					
+
 
 	
 		 
@@ -339,7 +307,7 @@ while(1){
 	
 			 sprintf(disS,"%d",number);
 	
-		//			printstring(disS);
+
 			printstring("["); 
 
 			 for(k=1; k < number ; k+=2)			
@@ -373,7 +341,7 @@ break;
 				}
 			}
 			
-	//delayMilli(122);
+
 	
 
 }
@@ -381,21 +349,21 @@ break;
 char UART1_Receiver(void) 
 {
     char data;
-	  while((UART5_FR_R & (1<<4)) != 0); /* wait until Rx buffer is not full */
-    data = UART5_DR_R ;  	/* before giving it another byte */
+	  while((UART5_FR_R & (1<<4)) != 0); 
+    data = UART5_DR_R ;  
     return (unsigned char) data; 
 }
 char UART0_Receiver(void) 
 {
     char data;
-	  while((UART0_FR_R & (1<<4)) != 0); /* wait until Rx buffer is not full */
-    data = UART0_DR_R ;  	/* before giving it another byte */
+	  while((UART0_FR_R & (1<<4)) != 0); 
+    data = UART0_DR_R ;  
     return (unsigned char) data; 
 }
 void UART0_Transmitter(unsigned char  data)  
 {
-    while((UART0_FR_R & (1<<5)) != 0); /* wait until Tx buffer not full */
-    UART0_DR_R = data;                  /* before giving it another byte */
+    while((UART0_FR_R & (1<<5)) != 0); 
+    UART0_DR_R = data;                  
 }
 
 void printstring(char* str)
@@ -418,9 +386,6 @@ double deg2rad(double deg) {
   return (deg * pi / 180);
 }
 
-/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-/*::  This function converts radians to decimal degrees             :*/
-/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 double rad2deg(double rad) {
   return (rad * 180 / pi);
 }
