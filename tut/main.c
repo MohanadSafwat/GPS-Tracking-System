@@ -160,6 +160,7 @@ int main(void){
 	double la =11.5;
 	double lo=12.5; 
 	bool flagErase = false;
+	int done =0 ;
 	UART_init_GPS();
 	UART_init_console();
 	init();
@@ -170,47 +171,15 @@ int main(void){
 	
 	//	Flash_Erase(16);
 			while(1){
-
-	if((GPIO_PORTF_DATA_R & 0x01) == 0x0)
-	{
-		c0 = UART0_Receiver(); 
-				if(c0=='U'){
-						Flash_Read( &number,1,0,'c');
-	
-			 sprintf(disS,"%d",number);
-	//	 printstring(disS);
-			printstring("["); 
-
-			 for(k=1; k < number ; k+=2)			
-			 {
-
-					 Flash_Read(&ts,2,k,'p');
+				Flash_Read( &number,1,0,'d');
+				sprintf(test,"%d",number);
+	printstring(test);
+	printstring("::");
 				
-				 sprintf(disS,"%f",ts);
-					printstring(disS);
-					printstring(",");
-				
-
+				if(number ==1)
+					break;
 	
-			 }
-			 printstring("]"); 
-			 			printstring("["); 
-
-			 for(k=2; k < number ; k+=2)			
-			 {
-					 Flash_Read(&ts,2,k,'p');
-				 sprintf(disS,"%f",ts);
-					printstring(disS);
-					printstring(",");
-
-			 }
-			 printstring("]"); 
-
-			 GPIO_PORTF_DATA_R = 0x08 ;		
-break;			 
-
-				}}
-				else{
+			//	else{
 					if(!flagErase){
 						Flash_Erase(16);
 						
@@ -295,22 +264,22 @@ break;
                                   
 																		sprintf(longitudeResult, "%f", resultLon);
 																		
-																		printstring(latitudeResult);
-																		printstring("    ");
-																		printstring(longitudeResult);
-																		printstring("::");
+																	//	printstring(latitudeResult);
+																	//	printstring("    ");
+																		//printstring(longitudeResult);
+																	//	printstring("::");
 if(!flag){
 
-	dis += distance(lat1,lon1,lat2,lon2,'K');
+	dis += distance(lat1,lon1,lat2,lon2,'K')+99;
   }
   
 			sprintf(disS,"%f",dis);
 	
 	 print(disS);
 	
-	sprintf(test,"%d",pointCounter);
-	printstring(test);
-	printstring("::");
+	//sprintf(test,"%d",pointCounter);
+	//printstring(test);
+	//printstring("::");
 
 	
 									Flash_Write(&lat1,2,pointCounter,'p');
@@ -321,7 +290,9 @@ if(!flag){
 				
 													pointCounter++;
 	if(dis>=100){
+		done =1;
 		  Flash_Write(&pointCounter, 1, 0,'c');
+		  Flash_Write(&done, 1, 0,'d');
 			 GPIO_PORTF_DATA_R = 0x02 ;		 
 			 break;
 	}
@@ -336,7 +307,7 @@ if(!flag){
 																}
 	
                         }}}}}}} 
-		}
+	//	}
 									/*			sprintf(test,"%d",pointCounter);
 	printstring(test);
 	printstring("::");
@@ -357,9 +328,51 @@ if(!flag){
 	
 		 
 										}
+			delayMilli(1000);
+			if((GPIO_PORTF_DATA_R&0x01) == 0x00)
+				Flash_Erase(16);
+			
+while(1){
+		c0 = UART0_Receiver(); 
+				if(c0=='U'){
+						Flash_Read( &number,1,0,'c');
 	
+			 sprintf(disS,"%d",number);
+	
+		//			printstring(disS);
+			printstring("["); 
+
+			 for(k=1; k < number ; k+=2)			
+			 {
+
+					 Flash_Read(&ts,2,k,'p');
+				
+				 sprintf(disS,"%f",ts);
+					printstring(disS);
+					printstring(",");
+				
 
 	
+			 }
+			 printstring("]"); 
+			 			printstring("["); 
+
+			 for(k=2; k < number ; k+=2)			
+			 {
+					 Flash_Read(&ts,2,k,'p');
+				 sprintf(disS,"%f",ts);
+					printstring(disS);
+					printstring(",");
+
+			 }
+			 printstring("]"); 
+
+			 GPIO_PORTF_DATA_R = 0x08 ;		
+break;			 
+
+				}
+			}
+			
 	//delayMilli(122);
 	
 
