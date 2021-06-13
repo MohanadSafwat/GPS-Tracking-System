@@ -308,7 +308,7 @@ while(1){
 			 sprintf(disS,"%d",number);
 	
 
-			printstring("["); 
+		//	printstring("["); 
 
 			 for(k=1; k < number ; k+=2)			
 			 {
@@ -317,23 +317,23 @@ while(1){
 				
 				 sprintf(disS,"%f",ts);
 					printstring(disS);
-					printstring(",");
+			if(k!=number-1)		printstring(",");
 				
 
 	
 			 }
-			 printstring("]"); 
-			 			printstring("["); 
+			 printstring("-"); 
+			// 			printstring("["); 
 
 			 for(k=2; k < number ; k+=2)			
 			 {
 					 Flash_Read(&ts,2,k,'p');
 				 sprintf(disS,"%f",ts);
 					printstring(disS);
-					printstring(",");
+						if(k!=number-1)		printstring(",");
 
 			 }
-			 printstring("]"); 
+			 printstring("\n"); 
 
 			 GPIO_PORTF_DATA_R = 0x08 ;		
 break;			 
