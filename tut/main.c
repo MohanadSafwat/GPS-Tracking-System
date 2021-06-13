@@ -206,7 +206,7 @@ int main(void){
 			 }
 			 printstring("]"); 
 
-			 GPIO_PORTF_DATA_R |= 0x08 ;		
+			 GPIO_PORTF_DATA_R = 0x08 ;		
 break;			 
 
 				}}
@@ -322,7 +322,7 @@ if(!flag){
 													pointCounter++;
 	if(dis>=100){
 		  Flash_Write(&pointCounter, 1, 0,'c');
-			 GPIO_PORTF_DATA_R |= 0x02 ;		 
+			 GPIO_PORTF_DATA_R = 0x02 ;		 
 			 break;
 	}
 													delayMilli(250);
