@@ -1,5 +1,5 @@
-#include "C:/Keil_v5/EE319KwareSpring2021/inc/tm4c123gh6pm.h"
-//#include "Flash.h"
+#include "C:/Keil/EE319Kware/inc/tm4c123gh6pm.h"
+#include "Flash.h"
 
 #define RED 0x02
 #define BLUE 0x04
@@ -12,39 +12,38 @@
 #include <inttypes.h>
 #include <string.h>
 #include "math.h"
-#define pi 3.14159265358979323846
+#include "lcd.h"
 
 void SystemInit(){
-
 }
-
 	
-void Delay(unsigned long counter);
+void delay(unsigned long counter);
 char UART1_Receiver(void);
-void UART0_Transmitter( unsigned char data);
-void printstring(char *str);
 char UART0_Receiver(void);
 
-double deg2rad(double);
-double rad2deg(double);
+void UART0_Transmitter( unsigned char data);
+
+
+
+void printstring(char *str);
 
 void UART_init_GPS(){
 
-	SYSCTL_RCGCUART_R |= 0x02; 
-  SYSCTL_RCGCGPIO_R |= 0x02; 
+	SYSCTL_RCGCUART_R |= 0x20; 
+  SYSCTL_RCGCGPIO_R |= 0x10; 
 
-	UART1_CTL_R &= ~0x0001; 
+	UART5_CTL_R &= ~0x0001; 
 
-	UART1_CTL_R = 0;
-  UART1_IBRD_R = 104;      
-  UART1_FBRD_R = 11; 
-  UART1_LCRH_R = (0x70);     
-  UART1_CC_R = 0x0;          
-  UART1_CTL_R = 0x301; 
+	UART5_CTL_R = 0;
+  UART5_IBRD_R = 104;      
+  UART5_FBRD_R = 11; 
+  UART5_LCRH_R = (0x70);     
+  UART5_CC_R = 0x0;          
+  UART5_CTL_R = 0x301; 
 	
-	GPIO_PORTB_AFSEL_R = 0x03; 
-  GPIO_PORTB_PCTL_R = 0x11;  
-  GPIO_PORTB_DEN_R = 0x03; 
+	GPIO_PORTE_AFSEL_R = 0x30; 
+  GPIO_PORTE_PCTL_R = 0x110000;  
+  GPIO_PORTE_DEN_R = 0x30; 
          
 
 	}
@@ -62,9 +61,9 @@ void UART_init_console(){
   UART0_CC_R = 0x0;          
   UART0_CTL_R = 0x301; 
 	
-	GPIO_PORTA_AFSEL_R = 0x03; 
-  GPIO_PORTA_PCTL_R = 0x11;  
-  GPIO_PORTA_DEN_R = 0x03; 
+	GPIO_PORTA_AFSEL_R |= 0x03; 
+  GPIO_PORTA_PCTL_R |= 0x11;  
+  GPIO_PORTA_DEN_R |= 0x03; 
 
 	}
 void init(){
@@ -78,10 +77,32 @@ void init(){
 	GPIO_PORTF_PUR_R = 0x11;
 	GPIO_PORTF_AFSEL_R = 0;
 	GPIO_PORTF_AMSEL_R = 0;
+	
+}
+/*void initEEPROM(){
+  SYSCTL_RCGCEEPROM_R = 0x1;
+	delay(10);
+	while((EEPROM_EEDONE_R&0x01)==1){}
+	while((EEPROM_EESUPP_R & 0xC)!=0x00){}
+	SYSCTL_SREEPROM_R = 0;
+	delay(10);
+	while((EEPROM_EEDONE_R&0x01)==1){}
+	while((EEPROM_EESUPP_R & 0xC)!=0x00){}		
 }
 
+void writeEEPROM(){
+EEPROM_EERDWR_R
+}*/
+
+#define pi 3.14159265358979323846
 
 
+
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+/*::  Function prototypes                                           :*/
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+double deg2rad(double);
+double rad2deg(double);
 
 
 double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
@@ -116,7 +137,7 @@ void dist(double *s){
 
 
 int main(void){
-			
+	
 	  char c0,c1,c2,c3,c4,c5,c6,c7,GPSValues[100],latitudeResult[16],longitudeResult[16],parseValue[12][20],*token;
     double latitude=0.0,longitude=0.0;
 	  double seconds=0.0,resultLat=0.0,resultLon=0.0,minutes=0.0;
@@ -126,29 +147,29 @@ int main(void){
 	int counter =0;
 	bool flag=true;
 	double dis=0.0;
-	char disS[10];
+	char disS[15];
   double theta, dist;	
 	double lat1,lon1,lat2,lon2;
-		//Point pt;
+		Point pt;
 	char c = 'c';
-	//Point ptArr[100] ;
+	Point ptArr[100] ;
 	int number;
-	int pointCounter =0 ;
+	double ts;
+	int pointCounter =1 ;
 	char test[15];
+	double la =11.5;
+	double lo=12.5; 
 	UART_init_GPS();
 	UART_init_console();
 	init();
-  //initLcd();
-	//Flash_Enable();
-  //delay(100);
+  initLcd();
+	Flash_Enable();
+  delay(100);
+	
+	//	Flash_Erase(16);
+			while(1){
 
 	
-			//Flash_Erase(4);
-	while(1){
-		
-		//lcdCommand(0x01);
-		//delayMilli(2);
-
 		c0 = UART0_Receiver(); 
 				if(c0=='U'){
 						Flash_Read( &number,1,0,'c');
@@ -186,11 +207,11 @@ int main(void){
 
 				}
 				else{
-
-			
-	//	c0 = UART1_Receiver();           /*get a character from UART5 */
+			lcdCommand(0x01);
+		delayMilli(2);
+		c0 = UART1_Receiver();           /*get a character from UART5 */
 		//UART0_Transmitter(c0); 
-	/*	 if(c0=='$'){
+		if(c0=='$'){
 
         c1=UART1_Receiver();
 
@@ -223,11 +244,7 @@ int main(void){
                                     strcpy(parseValue[index], token);
                                     token = strtok(NULL, comma);
                                     index++;}
-																		
-																		
-																		
-																		
-																										
+															
 
 																		
                              if(strcmp(parseValue[1],"A")==0){
@@ -236,7 +253,7 @@ int main(void){
 																 print("Wait...");
 																 delayMilli(200);
 																 continue;}
-															//		parseValue[2][11] ='0';
+													
  																	latitude = atof(parseValue[2]);
                                   longitude = atof(parseValue[4]);
 																
@@ -269,36 +286,37 @@ int main(void){
                                   
 																		sprintf(longitudeResult, "%f", resultLon);
 																		
-																		
-																		*/
-																		//	printstring(latitudeResult);
-																	//	printstring("    ");
-																	//	printstring(longitudeResult);
-																	//	printstring("::");
-/*if(!flag){
+																		printstring(latitudeResult);
+																		printstring("    ");
+																		printstring(longitudeResult);
+																		printstring("::");
+if(!flag){
 
 	dis += distance(lat1,lon1,lat2,lon2,'K');
   }
   
 			sprintf(disS,"%f",dis);
-			//	 printstring(disS);
-	strncpy(pt.latitude, latitudeResult, sizeof(pt.latitude));
-	strncpy(pt.longitude, longitudeResult, sizeof(pt.longitude));
-
-	printstring(pt.latitude);
-	printstring("::");
-	printstring(pt.longitude);
-
+	
 	 print(disS);
 	
-	//sprintf(test,"%d",pointCounter);
-	//printstring(test);
-	//printstring("::");
+	sprintf(test,"%d",pointCounter);
+	printstring(test);
+	printstring("::");
 
-	Flash_Write(&pt,sizeof(Point)/sizeof(uint32_t),pointCounter,'p');
-			delayMilli(200);
-		pointCounter++;
-
+	
+									Flash_Write(&lat1,2,pointCounter,'p');
+													
+													 		pointCounter++;
+													Flash_Write(&lon1,2,pointCounter,'p');
+										
+				
+													pointCounter++;
+	if(dis>=100){
+		  Flash_Write(&pointCounter, 1, 0,'c');
+			 GPIO_PORTF_DATA_R |= 0x02 ;		 
+			 break;
+	}
+													delayMilli(250);
 	flag = false;
 	}
                                
@@ -307,8 +325,9 @@ int main(void){
                                     print("Connecting...");
 																	delayMilli(500);
 																}
-                        }}}}}}}*/}
-											sprintf(test,"%d",pointCounter);
+	
+                        }}}}}}}}
+									/*			sprintf(test,"%d",pointCounter);
 	printstring(test);
 	printstring("::");
 									Flash_Write(&la,2,pointCounter,'p');
@@ -322,7 +341,7 @@ int main(void){
 	printstring(test);
 	printstring("::");	sprintf(test,"%f",lo);
 	printstring(test);
-	printstring("::");
+	printstring("::");*/
 					
 
 	
@@ -335,15 +354,12 @@ int main(void){
 	
 
 }
-	}
-	
-}
 
 char UART1_Receiver(void) 
 {
     char data;
-	  while((UART1_FR_R & (1<<4)) != 0); 
-    data = UART1_DR_R ;  
+	  while((UART5_FR_R & (1<<4)) != 0); /* wait until Rx buffer is not full */
+    data = UART5_DR_R ;  	/* before giving it another byte */
     return (unsigned char) data; 
 }
 char UART0_Receiver(void) 
@@ -355,9 +371,8 @@ char UART0_Receiver(void)
 }
 void UART0_Transmitter(unsigned char  data)  
 {
-    while((UART0_FR_R & (1<<5)) != 0); 
-    UART0_DR_R = data;                
-
+    while((UART0_FR_R & (1<<5)) != 0); /* wait until Tx buffer not full */
+    UART0_DR_R = data;                  /* before giving it another byte */
 }
 
 void printstring(char* str)
@@ -368,16 +383,21 @@ void printstring(char* str)
 	}
 }
 
-void Delay(unsigned long counter)
+void delay(unsigned long counter)
 {
 	unsigned long i = 0;
 	
 	for(i=0; i< counter; i++);
 }
+
+
 double deg2rad(double deg) {
   return (deg * pi / 180);
 }
 
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+/*::  This function converts radians to decimal degrees             :*/
+/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 double rad2deg(double rad) {
   return (rad * 180 / pi);
 }
