@@ -159,6 +159,7 @@ int main(void){
 	char test[15];
 	double la =11.5;
 	double lo=12.5; 
+	bool flagErase = false;
 	UART_init_GPS();
 	UART_init_console();
 	init();
@@ -166,19 +167,21 @@ int main(void){
 	Flash_Enable();
   delay(100);
 	
+	
 	//	Flash_Erase(16);
 			while(1){
 
-	
+	if((GPIO_PORTF_DATA_R & 0x01) == 0x0)
+	{
 		c0 = UART0_Receiver(); 
 				if(c0=='U'){
 						Flash_Read( &number,1,0,'c');
 	
 			 sprintf(disS,"%d",number);
-		 printstring(disS);
+	//	 printstring(disS);
 			printstring("["); 
 
-			 for(k=1; k <number/2 ; k+=2)			
+			 for(k=1; k < number ; k+=2)			
 			 {
 
 					 Flash_Read(&ts,2,k,'p');
@@ -193,7 +196,7 @@ int main(void){
 			 printstring("]"); 
 			 			printstring("["); 
 
-			 for(k=2; k <number/2 ; k+=2)			
+			 for(k=2; k < number ; k+=2)			
 			 {
 					 Flash_Read(&ts,2,k,'p');
 				 sprintf(disS,"%f",ts);
@@ -203,10 +206,16 @@ int main(void){
 			 }
 			 printstring("]"); 
 
-			 GPIO_PORTF_DATA_R |= 0x08 ;		 
+			 GPIO_PORTF_DATA_R |= 0x08 ;		
+break;			 
 
-				}
+				}}
 				else{
+					if(!flagErase){
+						Flash_Erase(16);
+						
+					}
+					flagErase = true;
 			lcdCommand(0x01);
 		delayMilli(2);
 		c0 = UART1_Receiver();           /*get a character from UART5 */
@@ -326,7 +335,8 @@ if(!flag){
 																	delayMilli(500);
 																}
 	
-                        }}}}}}}}
+                        }}}}}}} 
+		}
 									/*			sprintf(test,"%d",pointCounter);
 	printstring(test);
 	printstring("::");
